@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Ignorar chave privada e pública ###
+app.key
+app.pub
