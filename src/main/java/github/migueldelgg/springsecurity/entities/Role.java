@@ -9,9 +9,16 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    private long roleId;
-
+    private Long roleId;
     private String name;
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
 
     public String getName() {
         return name;
@@ -21,21 +28,14 @@ public class Role {
         this.name = name;
     }
 
-    public long getRoleId() {
-        return roleId;
-    }
+    public enum Values {
 
-    public void setRoleId(long roleId) {
-        this.roleId = roleId;
-    }
-
-    public enum Values{
         ADMIN(1L),
         BASIC(2L);
 
         long roleId;
 
-        Values(long roleId){
+        Values(long roleId) {
             this.roleId = roleId;
         }
 
