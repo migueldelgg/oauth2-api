@@ -1,6 +1,8 @@
 package github.migueldelgg.springsecurity.entities;
 
+import github.migueldelgg.springsecurity.controller.dto.LoginRequest;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 import java.util.UUID;
@@ -59,4 +61,8 @@ public class User {
         this.roles = roles;
     }
 
+    public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
+
+        return passwordEncoder.matches(loginRequest.password(), this.password);
+    }
 }
