@@ -2,6 +2,7 @@ package github.migueldelgg.springsecurity.controller;
 
 import github.migueldelgg.springsecurity.controller.dto.LoginRequest;
 import github.migueldelgg.springsecurity.controller.dto.LoginResponse;
+import github.migueldelgg.springsecurity.entities.Role;
 import github.migueldelgg.springsecurity.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,10 +46,13 @@ public class TokenController {
         var now = Instant.now();
         var expiresIin = 300L;
 
+        var scope = user.get().getRoles().stream().map(Role::getName).collect(Collectors.joining(" "));
+
         var claims = JwtClaimsSet.builder()
                 .issuer("oauth2-server")
                 .subject(user.get().getUserId().toString())
                 .expiresAt(now.plusSeconds(expiresIin))
+                .claim("scope", scope)
                 .issuedAt(now).build();
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
